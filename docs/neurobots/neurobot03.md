@@ -1,144 +1,69 @@
 ---
 id: neurobot03
-title: VK Mini-App
-sidebar_label: VK Mini-App
+title: Connecting VK Payments
+sidebar_label: Connecting VK Payments
 ---
 
 import YouTube from 'react-youtube'
 
-# Creating a VK Mini-App Using Node.js: Englishmoji Mini App
+# Connecting Payments to VK Community via Senler
 
-![neurocoder](/img/neurobots/neuro3.png)
+![neurocoder](/img/neurobots/neuro2.png)
 
-In this article, we will explore the process of creating a mini-app for VKontakte using Node.js. We will use the Englishmoji Mini App project, which is available on GitHub. By following the steps provided, you will be able to quickly deploy your application and test it.
+In this article, we will look at how to connect payments to your VKontakte community using the Senler service. We will go through several key stages, including setting up subscriber groups, creating products, adding banners, setting up a post-payment page, and integrating the payment system with the bot.
 
-<YouTube videoId='P033rWHG1y8' />
+<YouTube videoId='sFCNfHU3d7Y' />
 
-## Step 1: Installing Node.js
+## Step 1: Setting Up Subscriber Groups
 
-First, you need to install Node.js on your computer. You can do this by downloading the installer from the official Node.js website and following the installation instructions.
+The first step is to create subscriber groups that will be used to manage subscriptions.
+Creating the first subscriber group
+1.	Log in to Senler: Go to the Senler website and log in to your account.
+2.	Create a group: In the "Subscriber Groups" section, click the "Create Group" button.
+3.	Fill in the information:
+-	Group name: Specify a name to easily identify it in the future.
+-	Description: Add a brief description that will be visible to users.
+-	Banner: Upload a banner that will represent your group.
+4.	Save: Click "Save" to complete the creation of the first group.
 
-## Step 2: Cloning the Repository
+![neurocoder](/img/neurobots/image2.1.png)
 
-After installing Node.js, open the terminal and run the following command to clone the project repository:
+Creating the second and third subscriber groups
+Repeat the group creation process as described above for the second and third subscriber groups, ensuring unique names and descriptions.
 
-```bash
-git clone https://github.com/katsuhira02/englishmoji-mini-app
-```
-This command will create a local copy of the project on your computer.
+## Step 2: Creating Products
 
-## Step 3: Installing Dependencies
+After setting up subscriber groups, you need to create products that will represent different subscription levels.
+1.	Go to the "Products" section: In the menu, select "Create Product".
+2.	Creating the first product:
+-	Name: Specify the name of the first subscription level.
+-	Description: Describe what the subscription includes.
+-	Price: Set the price for the first level.
+-	Product link: Insert the link to the subscription page from the "Subscriber Groups" section in Senler.
+-	Save: Click "Save".
+3.	Creating the second and third products: Repeat the process to create the second and third subscription levels, changing the name, description, and price according to the offers.
 
-Navigate to the project directory and install all necessary dependencies by running the command:
+## Step 3: Adding a Link to the Community Menu
 
-```bash
-npm install
-```
+1.	Go to community settings: Go to your community page and select the "Manage" section.
+2.	Menu setup: In the menu, select the option to edit menu items. Here you can add new links.
+3.	Adding a link: Insert the link to the subscription page from the "Subscriber Groups" section in Senler.                                                                                                              
+Specify the name and add a cover so that users understand where the link leads.
+4.	Save changes: After adding all the necessary menu items, do not forget to save the changes.
 
-This command will download all libraries and modules specified in the package.json file.
+![neurocoder](/img/neurobots/image2.2.png)
 
-## Step 4: Running the Application
+## Step 4: Integrating the Payment System with the Bot
 
-Now you are ready to run the application. To do this, execute the command:
+To automate the payment process and manage subscriptions, you need to integrate the payment system with your bot.
+1.	Choosing a payment system: Senler offers several options, such as VK Pay, YooMoney, and others. Choose the one that suits your business.
+2.	Integration setup:
+-	Go to the "Payment Acceptance" section and follow the instructions to connect the selected payment system.
+-	Enter the necessary data, such as API keys and secret keys.
+3.	Testing: Conduct test payments to ensure that the system works correctly and users can successfully subscribe.
 
-```bash
-npm run start
-```
-
-This will start the server for your mini-app.
-
-## Step 5: Setting Up the Tunnel
-
-Open a second terminal and run the command:
-
-```bash
-npm run tunnel
-```
-
-This command will create a tunnel that allows your application to be accessible via HTTPS. In the terminal, you will receive an HTTPS link that you need to save for future use.
-
-## Step 6: Creating a Mini-App on dev.vk.com
-
-1. Go to the dev.vk.com website and log into your account.
-2. Create a new mini-app by selecting the appropriate option in the menu.
-3. Go to the "Hosting" section and paste the HTTPS link obtained in the terminal into the field for the desktop version development mode.
-4. Save the changes.
-
-## Step 7: Testing the Application
-
-Now click on the name of your application located on the right side of the page. If you have done everything correctly, you will be redirected to your created application and can test its functionality.
+![neurocoder](/img/neurobots/image2.3.png)
 
 ## Conclusion
 
-Creating a mini-app for VKontakte using Node.js is a simple and engaging process. By following the steps provided, you will be able to quickly deploy your application and start using it. The Englishmoji Mini App is a great example to get started with VKontakte mini-apps. Good luck with your development!
-
-# Creating a Mini-App in Telegram Using ngrok and Vite
-
-In this article, we will discuss how to create a mini-app for Telegram using ngrok for tunneling and Vite for development. By following simple steps, you will be able to deploy your application and test it in Telegram.
-
-## Step 1: Installing ngrok
-
-First, you need to install ngrok, which will allow you to create a secure tunnel to your local server. If you have Chocolatey installed, you can install ngrok using the following command:
-
-```bash
-choco install ngrok
-```
-
-If you do not have Chocolatey, download ngrok from the official website and follow the installation instructions.
-
-## Step 2: Setting Up the Vite Project
-
-After installing ngrok, create a new project using Vite or open an existing one. In the package.json file, you need to add scripts to run the application. Open package.json and add the following lines to the scripts section:
-
-```jsx
-"scripts": {
-  "start": "vite",
-  "start80": "vite --port 80"
-}
-```
-
-These commands will allow you to run the application on port 80.
-
-## Шаг 3: Установка gsudo
-
-gsudo — это утилита, которая позволяет запускать команды с повышенными правами в Windows. Установите gsudo, если он у вас еще не установлен. Вы можете установить его с помощью Chocolatey:
-
-```bash
-choco install gsudo
-```
-
-## Step 4: Running the Application
-
-Now you are ready to run the application. To do this, execute the following command in the terminal:
-
-```bash
-gsudo npm run start80
-```
-
-This command will start your application on port 80 with elevated privileges.
-
-## Step 5: Starting ngrok
-
-Now open a new terminal and navigate to the root folder of your project. Start ngrok by executing the following command:
-
-```bash
-ngrok http 80
-```
-
-ngrok will create a secure tunnel to your local server and provide you with a public URL that you can use to access your application from Telegram.
-
-## Step 6: Setting Up Telegram
-
-1. Go to Telegram and create a new bot using @BotFather.
-2. Get your bot token and save it.
-3. Set up a webhook for your bot using the URL provided by ngrok. Enter the following command in the terminal:
-
-```bash
-curl -X POST https://api.telegram.org/bot<YOUR_BOT_TOKEN>/setWebhook?url=<NGROK_URL>
-```
-
-Replace <YOUR_BOT_TOKEN> with your bot token and <NGROK_URL> with the URL obtained from ngrok.
-
-## Conclusion
-
-Creating a mini-app in Telegram using ngrok and Vite is a simple and effective way to quickly deploy and test your application. By following the steps provided, you will be able to set up the environment and run your bot in just a few minutes. Good luck with your development!
+Connecting payments to your VK community via Senler is an effective way to monetize your audience and manage subscriptions. By following the steps provided, you will be able to create subscriber groups, products, banners, post-payment pages, and integrate the payment system with the bot, which will significantly simplify the interaction process with your customers and increase their satisfaction level.

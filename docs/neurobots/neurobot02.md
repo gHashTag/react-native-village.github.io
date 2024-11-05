@@ -1,69 +1,57 @@
 ---
 id: neurobot02
-title: Connecting VK Payments
-sidebar_label: Connecting VK Payments
+title: Make Chatbot
+sidebar_label: Make Chatbot
 ---
 
-import YouTube from 'react-youtube'
+## Creating a Chatbot with ChatGPT for Telegram on the Make.com Platform
 
-# Connecting Payments to VK Community via Senler
+![neurocoder](/img/neurobots/neuro1.png)
 
-![neurocoder](/img/neurobots/neuro2.png)
+Creating a chatbot with ChatGPT integration for Telegram can be implemented using the Make.com automation platform (formerly Integromat). This allows you to quickly and easily set up a bot without writing code. Let's look at a step-by-step guide to creating such a bot.
 
-In this article, we will look at how to connect payments to your VKontakte community using the Senler service. We will go through several key stages, including setting up subscriber groups, creating products, adding banners, setting up a post-payment page, and integrating the payment system with the bot.
+## Step 1. Creating a New Bot in Telegram
 
-<YouTube videoId='sFCNfHU3d7Y' />
+1. In Telegram, find the @BotFather bot and start a conversation with it.
+2. Send the command /newbot to create a new bot.
+3. Follow BotFather's instructions, enter the bot's name and unique username.
+4. Copy the API token provided by BotFather - it will be needed to set up the bot.
 
-## Step 1: Setting Up Subscriber Groups
+## Step 2. Creating a Scenario in Make.com
 
-The first step is to create subscriber groups that will be used to manage subscriptions.
-Creating the first subscriber group
-1.	Log in to Senler: Go to the Senler website and log in to your account.
-2.	Create a group: In the "Subscriber Groups" section, click the "Create Group" button.
-3.	Fill in the information:
--	Group name: Specify a name to easily identify it in the future.
--	Description: Add a brief description that will be visible to users.
--	Banner: Upload a banner that will represent your group.
-4.	Save: Click "Save" to complete the creation of the first group.
+1. Register on the Make.com platform and create a new scenario.
+2. Select the Telegram Bot module and the Watch for updates action.
+3. Insert your bot's HTTP API token in the Create a webhook field.
 
-![neurocoder](/img/neurobots/image2.1.png)
+## Step 3. Integration with OpenAI
 
-Creating the second and third subscriber groups
-Repeat the group creation process as described above for the second and third subscriber groups, ensuring unique names and descriptions.
+#### 1. Create a new OpenAI module and select the Create a completion action.
+#### 2. Insert the OpenAI API key you received upon registration.
+#### 3. Select the ChatGPT model of your choice.
+#### 4. Add message 1 with the role System and content "Reply to the user in their language".
+#### 5. Add message 2 with the role User and content "1. Message: Text"(OpenAi).
+#### 6. Set the Max tokens value depending on the selected model.
+![neurocoder](/img/neurobots/image1.8.png)
+![neurocoder](/img/neurobots/image1.9.png)
 
-## Step 2: Creating Products
+## Step 4. Sending a Response to Telegram
 
-After setting up subscriber groups, you need to create products that will represent different subscription levels.
-1.	Go to the "Products" section: In the menu, select "Create Product".
-2.	Creating the first product:
--	Name: Specify the name of the first subscription level.
--	Description: Describe what the subscription includes.
--	Price: Set the price for the first level.
--	Product link: Insert the link to the subscription page from the "Subscriber Groups" section in Senler.
--	Save: Click "Save".
-3.	Creating the second and third products: Repeat the process to create the second and third subscription levels, changing the name, description, and price according to the offers.
+1. Create a new Telegram Bot module and select the Send a Text Message or a Reply action.
+2. In the Chat ID field, insert "1. Message: Chat: ID"(Telegram Bot).
+3. In the message text, insert "1: Message.Content"(OpenAI).
+4. Select the MarkDown mode in the Parse Mode field.
 
-## Step 3: Adding a Link to the Community Menu
+![neurocoder](/img/neurobots/image1.10.png)
+![neurocoder](/img/neurobots/image1.11.png)
 
-1.	Go to community settings: Go to your community page and select the "Manage" section.
-2.	Menu setup: In the menu, select the option to edit menu items. Here you can add new links.
-3.	Adding a link: Insert the link to the subscription page from the "Subscriber Groups" section in Senler.                                                                                                              
-Specify the name and add a cover so that users understand where the link leads.
-4.	Save changes: After adding all the necessary menu items, do not forget to save the changes.
+## Step 5. Setting Up the Webhook
 
-![neurocoder](/img/neurobots/image2.2.png)
+1. Copy the webhook URL from the Make.com scenario.
+2. Bind the webhook to the bot using the template:
+https://api.telegram.org/bot'TOKEN'/setWebhook?url='MAKEURL'
+Replace 'TOKEN' with your bot's API token, and 'MAKEURL' with the webhook URL from Make.com.
+3. Paste the resulting link into the browser.
 
-## Step 4: Integrating the Payment System with the Bot
+## Step 6. Testing the Bot
 
-To automate the payment process and manage subscriptions, you need to integrate the payment system with your bot.
-1.	Choosing a payment system: Senler offers several options, such as VK Pay, YooMoney, and others. Choose the one that suits your business.
-2.	Integration setup:
--	Go to the "Payment Acceptance" section and follow the instructions to connect the selected payment system.
--	Enter the necessary data, such as API keys and secret keys.
-3.	Testing: Conduct test payments to ensure that the system works correctly and users can successfully subscribe.
-
-![neurocoder](/img/neurobots/image2.3.png)
-
-## Conclusion
-
-Connecting payments to your VK community via Senler is an effective way to monetize your audience and manage subscriptions. By following the steps provided, you will be able to create subscriber groups, products, banners, post-payment pages, and integrate the payment system with the bot, which will significantly simplify the interaction process with your customers and increase their satisfaction level.
+Now you can test your bot by sending it a message. The bot should respond using ChatGPT capabilities. Thus, using the Make.com platform, you can quickly create a chatbot for Telegram with ChatGPT integration without writing code. This allows you to easily automate user interactions and provide them with intelligent responses based on ChatGPT capabilities.

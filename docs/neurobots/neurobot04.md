@@ -1,101 +1,144 @@
 ---
 id: neurobot04
-title: Layout of the VKontakte Mini-Application
-sidebar_label: Layout 
+title: VK Mini-App
+sidebar_label: VK Mini-App
 ---
 
 import YouTube from 'react-youtube'
 
-# Layout of the VKontakte Mini-Application Using React and VKUI
+# Creating a VK Mini-App Using Node.js: Englishmoji Mini App
 
-![neurocoder](/img/neurobots/neuro4.png)
+![neurocoder](/img/neurobots/neuro3.png)
 
-In previous articles, we created a mini-application for VKontakte using Deno, Supabase Edge Functions, OpenAI, and grammY. Now let's look at how to improve the interface of our application using React and the VKUI library. VKUI is a component library designed for creating interfaces that match the VKontakte style.
+In this article, we will explore the process of creating a mini-app for VKontakte using Node.js. We will use the Englishmoji Mini App project, which is available on GitHub. By following the steps provided, you will be able to quickly deploy your application and test it.
 
-<YouTube videoId='6n2L1k7oSFY' />
+<YouTube videoId='P033rWHG1y8' />
 
-## 1. Flexbox Froggy Game
+## Step 1: Installing Node.js
 
-### What is Flexbox Froggy?
+First, you need to install Node.js on your computer. You can do this by downloading the installer from the official Node.js website and following the installation instructions.
 
-Flexbox Froggy is an interactive game that will help you master Flexbox concepts using an engaging and visual approach. In the game, you will control frogs that need to reach their lily pads using Flexbox properties.
+## Step 2: Cloning the Repository
 
-### How to Play?
-
-In each of the 24 levels of the game, you are provided with CSS code that you need to complete to correctly position the frogs on the screen. The game offers hints and explanations, making learning more accessible and fun. For example, in the first level, you need to use the justify-content property to align the frogs in a row. You will be prompted to write code that helps them reach the lily pads.
-
-```css
-#pond {
-  display: flex;
-  justify-content: space-between; /* Use this property to distribute the frogs */
-}
-```
-
-### Why Play?
-
-Flexbox Froggy helps you:
-- Understand the main Flexbox properties, such as flex-direction, justify-content, align-items, and others.
-- Learn to apply these properties in practice, which will significantly simplify your layout work.
-- Enjoy the learning process in a playful manner.
-
-## 2. Layout of the VKontakte Mini-Application Using React and VKUI
-
-### Basics of VKUI
-
-VKUI is a component library specifically designed for creating interfaces that match the VKontakte style. It provides ready-made components such as buttons, panels, cards, and other interface elements that will help you quickly and efficiently develop applications.
-
-Applying Flexbox and VKUI Knowledge in Our Mini-Application
-Now, when we already have a mini-application, let's apply the knowledge of Flexbox and the VKUI library to improve the interface. Here are a few steps to get started:
-
-### Step 1: Installing VKUI
-
-If you haven't installed VKUI yet, run the following command in your project's terminal:
+After installing Node.js, open the terminal and run the following command to clone the project repository:
 
 ```bash
-npm install @vkontakte/vkui
+git clone https://github.com/katsuhira02/englishmoji-mini-app
+```
+This command will create a local copy of the project on your computer.
+
+## Step 3: Installing Dependencies
+
+Navigate to the project directory and install all necessary dependencies by running the command:
+
+```bash
+npm install
 ```
 
-### Step 2: Creating an Interface with Panel and VKUI Components
+This command will download all libraries and modules specified in the package.json file.
 
-Create a new component, for example, MainPanel.js, and use VKUI components to create the interface.
+## Step 4: Running the Application
 
-```typescript
-import React from 'react';
-import { Panel, PanelHeader, Button, Group, Div } from '@vkontakte/vkui';
+Now you are ready to run the application. To do this, execute the command:
 
-const MainPanel = () => {
-  return (
-    <Panel>
-      <PanelHeader>Добро пожаловать!</PanelHeader>
-      <Group>
-        <Div>
-          <h2>Ваше мини-приложение</h2>
-          <p>Здесь вы можете взаимодействовать с ботом и получать ответы.</p>
-          <Button size="l" mode="primary">Начать</Button>
-        </Div>
-      </Group>
-    </Panel>
-  );
-};
-
-export default MainPanel;
+```bash
+npm run start
 ```
 
-### Step 3: Styling with Flexbox
+This will start the server for your mini-app.
 
-You can add styles to the MainPanel.css file if you want to use Flexbox for more complex layouts. For example:
+## Step 5: Setting Up the Tunnel
 
-```css
-.panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f2f2f2;
-}
+Open a second terminal and run the command:
+
+```bash
+npm run tunnel
 ```
+
+This command will create a tunnel that allows your application to be accessible via HTTPS. In the terminal, you will receive an HTTPS link that you need to save for future use.
+
+## Step 6: Creating a Mini-App on dev.vk.com
+
+1. Go to the dev.vk.com website and log into your account.
+2. Create a new mini-app by selecting the appropriate option in the menu.
+3. Go to the "Hosting" section and paste the HTTPS link obtained in the terminal into the field for the desktop version development mode.
+4. Save the changes.
+
+## Step 7: Testing the Application
+
+Now click on the name of your application located on the right side of the page. If you have done everything correctly, you will be redirected to your created application and can test its functionality.
 
 ## Conclusion
 
-Using React and the VKUI library in combination with the knowledge of Flexbox, obtained from the Flexbox Froggy game, will help you create more attractive and functional interfaces for your VKontakte mini-application. VKUI simplifies development by providing ready-made components that match the VKontakte style. Don't forget to experiment with Flexbox and VKUI components in your projects to solidify your understanding. Good luck with developing and styling your VKontakte mini-application!
+Creating a mini-app for VKontakte using Node.js is a simple and engaging process. By following the steps provided, you will be able to quickly deploy your application and start using it. The Englishmoji Mini App is a great example to get started with VKontakte mini-apps. Good luck with your development!
+
+# Creating a Mini-App in Telegram Using ngrok and Vite
+
+In this article, we will discuss how to create a mini-app for Telegram using ngrok for tunneling and Vite for development. By following simple steps, you will be able to deploy your application and test it in Telegram.
+
+## Step 1: Installing ngrok
+
+First, you need to install ngrok, which will allow you to create a secure tunnel to your local server. If you have Chocolatey installed, you can install ngrok using the following command:
+
+```bash
+choco install ngrok
+```
+
+If you do not have Chocolatey, download ngrok from the official website and follow the installation instructions.
+
+## Step 2: Setting Up the Vite Project
+
+After installing ngrok, create a new project using Vite or open an existing one. In the package.json file, you need to add scripts to run the application. Open package.json and add the following lines to the scripts section:
+
+```jsx
+"scripts": {
+  "start": "vite",
+  "start80": "vite --port 80"
+}
+```
+
+These commands will allow you to run the application on port 80.
+
+## Шаг 3: Установка gsudo
+
+gsudo — это утилита, которая позволяет запускать команды с повышенными правами в Windows. Установите gsudo, если он у вас еще не установлен. Вы можете установить его с помощью Chocolatey:
+
+```bash
+choco install gsudo
+```
+
+## Step 4: Running the Application
+
+Now you are ready to run the application. To do this, execute the following command in the terminal:
+
+```bash
+gsudo npm run start80
+```
+
+This command will start your application on port 80 with elevated privileges.
+
+## Step 5: Starting ngrok
+
+Now open a new terminal and navigate to the root folder of your project. Start ngrok by executing the following command:
+
+```bash
+ngrok http 80
+```
+
+ngrok will create a secure tunnel to your local server and provide you with a public URL that you can use to access your application from Telegram.
+
+## Step 6: Setting Up Telegram
+
+1. Go to Telegram and create a new bot using @BotFather.
+2. Get your bot token and save it.
+3. Set up a webhook for your bot using the URL provided by ngrok. Enter the following command in the terminal:
+
+```bash
+curl -X POST https://api.telegram.org/bot<YOUR_BOT_TOKEN>/setWebhook?url=<NGROK_URL>
+```
+
+Replace <YOUR_BOT_TOKEN> with your bot token and <NGROK_URL> with the URL obtained from ngrok.
+
+## Conclusion
+
+Creating a mini-app in Telegram using ngrok and Vite is a simple and effective way to quickly deploy and test your application. By following the steps provided, you will be able to set up the environment and run your bot in just a few minutes. Good luck with your development!

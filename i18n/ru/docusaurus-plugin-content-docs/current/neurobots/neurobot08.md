@@ -1,92 +1,95 @@
 ---
 id: neurobot08
-title: Телеграм бот с dall-e 3
-sidebar_label: Телеграм бот с dall-e 3
+title: Подключение платежей в телеграм
+sidebar_label: Подключение платежей в телеграм
 ---
 
 import YouTube from 'react-youtube'
 
-# Добавление генерации изображений с помощью DALL-E 3 в Telegram-бота
+# Оплата платежей в Telegram боте с использованием Stars
 
-![neurocoder](/img/neurobots/neuro8.png)
+![neurocoder](/img/neurobots/neuro7.png)
 
-В этой статье мы рассмотрим, как расширить функциональность нашего Telegram-бота, добавив возможность генерации изображений с помощью DALL-E 3. Мы будем использовать библиотеку grammY для работы с Telegram API и OpenAI для генерации изображений. Следуя приведенной инструкции, вы сможете интегрировать эту функцию в вашего бота.
+В этом руководстве мы рассмотрим, как реализовать систему оплаты в Telegram боте, используя Stars. Мы будем использовать код, представленный в файле `index.ts`, который уже содержит основные команды и обработчики сообщений.
 
-<YouTube videoId='BJ5y4278YAE' />
+<YouTube videoId='qHd2KiCI1Ic' />
 
-## Шаг 1: Обновление кода бота
+## 1. Настройка бота
 
-Для начала откройте файл index.ts вашего бота и добавьте следующий код:
+Для начала, убедитесь, что у вас есть Telegram бот, созданный через BotFather. Получите токен вашего бота и добавьте его в ваш проект.
+
+## 2. Обработка команд
+
+В коде уже реализованы команды, такие как `/start` и `/buy`. Команда `/buy` инициирует процесс покупки, предлагая пользователю выбрать один из доступных товаров:
 
 ```typescript
-import { Context } from "https://deno.land/x/grammy@v1.8.3/mod.ts";
+bot.command('buy', async (ctx) => {
+	await ctx.replyWithChatAction('typing')
+	await ctx.reply("Choose the option", {
+		reply_markup: {
+			inline_keyboard: [
+				[{text:"Buy me coffee", callback_data: "buy_coffee"}, {text:"Buy me a book", callback_data: "buy_book"}, {text:"Buy me a juice", callback_data: "buy_juice"}],
+				[{text:"Buy me a course", callback_data: "buy_course"}],
+			]
+		}
+	})
+})
+```
 
-bot.on("message:text", async (ctx: Context) => {
-  if (ctx.message?.text?.startsWith("/")) return;
-  await ctx.replyWithChatAction("typing");
-  
-  const inviter = ctx?.message?.text;
-  const message = ctx.update.message;
-  const language_code = message?.from?.language_code;
-  const username = message?.from?.username;
-  const telegram_id = message?.from?.id.toString();
+## 3. Обработка платежей
 
-  if (!ctx.from) throw new Error("User not found");
+Когда пользователь выбирает товар, бот обрабатывает соответствующий `callback_query`. В зависимости от выбранного товара, бот отправляет пользователю счет на оплату:
 
-  // Проверяем, является ли сообщение ответом на другое сообщение
-  if (ctx?.message?.reply_to_message) {
-    // Получаем текст оригинального сообщения
-    const query = ctx.message.text;
-    const originalMessageText = ctx?.message?.reply_to_message?.caption
-      ? ctx?.message?.reply_to_message?.caption
-      : ctx?.message?.reply_to_message?.text;
-      
-    console.log(originalMessageText);
-    
-    if (originalMessageText?.includes('Что вы хотите создать?')) {
-      await ctx.reply(originalMessageText);
-      console.log('vkclip'); 
-      await ctx.replyWithChatAction('typing');
-      
-      if (!ctx.from) throw new Error('User not found');
+```typescript
+bot.on('callback_query:data', async (ctx) => {
+	await ctx.replyWithChatAction("typing")
+	const callbackData = ctx.callbackQuery.data
+	if (callbackData.startsWith("buy")) {
+		if (callbackData.endsWith("coffee")) {
+			await ctx.replyWithInvoice(
+				"Buy me a coffee",
+				"Hot coffee",
+				"Coffee",
+				"",
+				"XTR",
+				[{ label: "Цена", amount: 40}]
+			)
+			return 
+		}
+		// Аналогично для других товаров...
+	}
+})
+```
 
-      // Генерация изображения с помощью OpenAI
-      const response = await openai.images.generate({ 
-        model: 'dall-e-3', 
-        prompt: originalMessageText, 
-        n: 1, 
-        size: '1024x1792', 
-      });
-      
-      console.log(response, 'response');
-      const image_url = response.data[0].url;
+## 4. Обработка предзаказа
 
-      if (!image_url) throw new Error('Image URL not found');
-      await ctx.replyWithPhoto(image_url); 
-      
-      return; 
-    }
-  } 
+Бот также обрабатывает предзаказ, чтобы подтвердить, что пользователь готов к оплате:
+
+```typescript
+bot.on("pre_checkout_query", (ctx) => {
+	ctx.answerPreCheckoutQuery(true);
+	return;
 });
 ```
 
-## Пояснение к коду
+## 5. Запуск сервера
 
-1.	Импортируем Context: Мы импортируем Context из библиотеки grammY, чтобы иметь доступ к контексту сообщения.
-2.	Обработка текстового сообщения: Мы добавляем обработчик для текстовых сообщений, который будет реагировать на сообщения, не начинающиеся с /.
-3.	Отображение действия "печатает": При получении сообщения бот показывает, что он "печатает" ответ.
-4.	Проверка на ответ: Если сообщение является ответом на другое сообщение, мы получаем текст оригинального сообщения.
-5.	Генерация изображения: Если текст оригинального сообщения содержит фразу "Что вы хотите создать?", бот отправляет запрос к OpenAI для генерации изображения с использованием DALL-E 3. Мы передаем оригинальный текст как prompt.
-6.	Отправка изображения: После получения URL сгенерированного изображения, бот отправляет его пользователю.
-
-## Шаг 2: Импорт необходимых библиотек
-Не забудьте импортировать необходимые библиотеки в начале вашего файла index.ts, если вы этого еще не сделали:
+В конце файла мы настраиваем сервер для обработки входящих запросов:
 
 ```typescript
-import { Context } from "https://deno.land/x/grammy@v1.8.3/mod.ts";
-import { openai } from "./path/to/openai/client.ts"; // Убедитесь, что путь к клиенту OpenAI правильный
+Deno.serve(async (req) => {
+	try {
+	const url = new URL(req.url);
+	if (url.searchParams.get('secret') !== Deno.env.get('FUNCTION_SECRET')) {
+	return new Response('not allowed', { status: 405 });
+	}
+	return await handleUpdate(req);
+	} catch (err) {
+	console.error(err);
+	}
+});
 ```
 
 ## Заключение
 
-Теперь ваш Telegram-бот способен генерировать изображения с помощью DALL-E 3 на основе текстовых запросов пользователей. Это расширяет функциональность бота и делает его более интерактивным и интересным для пользователей. Вы можете продолжать улучшать его, добавляя новые команды и функции. Удачи в разработке!
+Теперь у вас есть базовая структура для реализации платежей в Telegram боте с использованием Stars. Вы можете расширить функциональность, добавив больше товаров или улучшив обработку ошибок. Убедитесь, что вы тестируете бота в безопасной среде, прежде чем запускать его в продакшн.

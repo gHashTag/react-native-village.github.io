@@ -1,203 +1,70 @@
 ---
 id: neurobot06
-title: Creating a Telegram Bot Using Deno, Supabase Edge Functions, OpenAI, and grammY
-sidebar_label: Telegram Bot
+title: Setting up the working environment
+sidebar_label: Setting up the working environment
 ---
 
 import YouTube from 'react-youtube'
 
-# Creating a Telegram Bot Using Deno, Supabase Edge Functions, OpenAI, and grammY
+# Setting Up a Development Environment with Supabase, Docker, and ngrok
 
-![neurocoder](/img/neurobots/neuro6.png)
+![neurocoder](/img/neurobots/neuro5.png)
 
-In this article, we will discuss how to create a Telegram bot using Deno for the backend, Supabase Edge Functions for handling requests, OpenAI for generating responses, and the grammY library for interacting with the Telegram API. By following the step-by-step instructions, you will be able to create a functional bot that responds to user messages.
+Creating a development environment for building applications using Supabase, Docker, and ngrok is an essential step for effective work. In this article, we will discuss how to install and configure each of these technologies.
 
-<YouTube videoId='WTMMBT5hgeQ' />
+<YouTube videoId='ahD6pr87l0M' />
 
-## Step 1: Installing Required Tools
+## 1. Supabase: Install Supabase CLI
 
-First, you need to install several tools:
-1. Supabase: Install the Supabase CLI by following the official instructions.
-2. Docker Desktop: Install Docker Desktop from the official website.
-3. ngrok: Install ngrok using Chocolatey:
+Supabase CLI provides tools for developing your project locally and deploying it on the Supabase platform.
+
+### Installing Supabase CLI
+
+To install Supabase CLI, run the following command:
+
+```bash
+npm install supabase --save-dev
+```
+
+After installation, you can run CLI commands using npx:
+
+```bash
+npx supabase <command>
+```
+
+To check the installed version of Supabase CLI, use the command:
+
+```bash
+supabase -v
+```
+
+This will ensure that you are using the latest version of the CLI compatible with the required features. It is recommended to use version v1.46.4 or higher for the best experience.
+
+## 2. Docker Desktop: Install Docker Desktop
+
+Docker Desktop is an application that allows you to develop and test applications in containers. Installing Docker is necessary for the Supabase CLI to work, as it uses containers to manage the local environment.
+
+### Installing Docker Desktop
+
+1. Go to the official Docker website and download the installer for your operating system.
+2. Follow the on-screen instructions to complete the installation.
+3. After installation, launch Docker Desktop and ensure it is running correctly.
+
+## 3. ngrok: Install ngrok Using Chocolatey
+
+ngrok is a tool for creating secure tunnels to local servers. It allows you to share local web applications with others via a public URL.
+
+### Installing ngrok
+
+If you have Chocolatey installed, you can install ngrok using the following command:
 
 ```bash
 choco install ngrok
 ```
 
-## Step 2: Creating a Bot in BotFather
-
-1. Go to Telegram and find the bot @BotFather.
-2. Send the command /newbot and follow the instructions to create a new bot.
-3. Save your bot token, which will be used in the code.
-
-## Step 3: Initializing the Project
-
-Create a new folder for your project and navigate to it. Then run the following command in the terminal:
-
-```bash
-supabase init
-```
-
-This command will create the Supabase project structure.
-
-## Step 4: Installing Deno
-
-Make sure you have Deno installed. You can download it from the official website.
-
-## Step 5: Creating a Function
-
-Create a new function by running the command in the terminal:
-
-```bash
-supabase functions new telegram-bot
-```
-
-This will create a new folder with a function template.
-
-## Step 6: Creating the Project Structure
-
-In the functions folder, create a new folder called _shared. Inside this folder, create a folder named telegram, and within it, create a file called bots.ts. Insert the following code into bots.ts:
-
-```typescript
-import { Bot, webhookCallback } from "https://deno.land/x/grammy@v1.8.3/mod.ts";
-
-if (!Deno.env.get("TELEGRAM_BOT_TOKEN")) throw new Error("TELEGRAM_BOT_TOKEN is not set");
-
-export const bot = new Bot(Deno.env.get("TELEGRAM_BOT_TOKEN") || "");
-export const handleUpdate = webhookCallback(bot, 'std/http');
-```
-
-### Explanation of the Code:
-- We import the necessary modules from the grammY library.
-- We check if the bot token is set in the environment variables.
-- We create an instance of the bot and a function to handle updates.
-
-## Step 7: Setting Up OpenAI
-
-In the _shared folder, create a folder named openai, and within it, create two files: index.ts and client.ts. Insert the following code into client.ts:
-
-```typescript
-import OpenAI from "https://deno.land/x/openai@v4.28.0/mod.ts";
-
-if (!Deno.env.get("OPENAI_API_KEY")) throw new Error("OpenAI API key not set");
-
-export const apiKey = Deno.env.get("OPENAI_API_KEY");
-export const openai = new OpenAI({ apiKey });
-```
-
-### Explanation of the Code:
-- We import the OpenAI library.
-- We check if the OpenAI API key is set in the environment variables.
-- We create an instance of OpenAI using the API key.
-
-In index.ts, insert the following code:
-
-```typescript
-import { model_ai } from "../constants.ts";
-import { openai } from "./client.ts";
-
-export async function answerAi(prompt: string, language_code: string) {
-  try {
-    const systemPrompt = `Reply to the user in language: ${language_code}`;
-
-    const chatCompletion = await openai.chat.completions.create({
-      messages: [
-        { role: "user", content: prompt },
-        { role: "system", content: systemPrompt },
-      ],
-      model: model_ai,
-      stream: false,
-      temperature: 0.1,
-    });
-
-    console.log(chatCompletion);
-    return chatCompletion.choices[0].message.content; 
-  } catch (e) {
-    throw new Error("Error_answerAi", e);
-  } 
-}
-```
-
-### Explanation of the Code:
-- The function answerAi takes a text prompt and a language code.
-- It forms a system prompt and sends a request to OpenAI.
-- It returns the response from OpenAI.
-
-## Step 8: Main Logic of the Function
-
-Open the index.ts file in your function folder and insert the following code:
-
-```typescript
-import { bot, handleUpdate } from "../_shared/telegram/bots.ts";
-import { answerAi } from "../_shared/openai/index.ts";
-
-console.log(`Function "telegram-bot" up and running!`);
-
-bot.command('start', (ctx) => ctx.reply('Welcome! Up and running.'));
-
-bot.on('message', async (ctx) => {
-  console.log(ctx.message);
-  await ctx.replyWithChatAction("typing");
-  const answer = await answerAi(ctx.message.text || '', ctx.message.from.language_code || '');
-  await ctx.reply(answer || '');
-});
-
-Deno.serve(async (req) => {
-  try {
-    const url = new URL(req.url);
-    if (url.searchParams.get('secret') !== Deno.env.get('FUNCTION_SECRET')) {
-      return new Response('not allowed', { status: 405 });
-    }
-
-    return await handleUpdate(req);
-  } catch (err) {
-    console.error(err);
-  }
-});
-```
-
-### Explanation of the Code:
-- We import functions and objects from other files.
-- We handle the /start command by sending a welcome message.
-- We handle text messages by sending a request to OpenAI and replying to the user.
-
-## Step 9: Setting Up Environment Variables
-
-In the root of the project, create a .env file and insert the following code:
-
-```text
-TELEGRAM_BOT_TOKEN=
-OPENAI_API_KEY=
-FUNCTION_SECRET=
-```
-
-Fill in the variables with your Telegram token, OpenAI API key, and create a secret for the function. The secret can be set arbitrarily, for example, MY_SECRET.
-
-## Step 10: Running and Testing
-
-1. Run ngrok to create a tunnel:
-
-```bash
-ngrok http 54321
-```
-
-2. In another terminal, run Supabase functions:
-
-```bash
-supabase functions serve --env-file .env --no-verify-jwt
-```
-
-## Step 11: Setting Up the Webhook
-
-Copy the link obtained from ngrok (it will be displayed after the word "forwarding" and before "ngrok-free.app"). Set the webhook for your bot by executing the following request:
-
-```bash
-curl -X POST https://api.telegram.org/bot<YOUR_BOT_TOKEN>/setWebhook?url=<YOUR_URL>?secret=<YOUR_FUNCTION_SECRET>
-```
-
-Replace <YOUR_BOT_TOKEN> with your bot token and <YOUR_FUNCTION_SECRET> with your function secret.
+If you do not have Chocolatey, you can download ngrok from the official website and follow the installation instructions.
 
 ## Conclusion
 
-Now your Telegram bot is ready to work! It uses Deno to perform server logic, Supabase Edge Functions to handle requests, and OpenAI to generate responses to user messages. You can expand the bot's functionality by adding new commands and improving user interaction. Good luck with your development!
+Now you have set up a development environment with Supabase, Docker, and ngrok. These tools will help you effectively develop and test your applications. Supabase provides powerful capabilities for working with databases, Docker allows you to manage dependencies in containers, and ngrok simplifies access to your local applications. Good luck with your development!
+

@@ -1,70 +1,101 @@
 ---
 id: neurobot05
-title: Setting up the working environment
-sidebar_label: Setting up the working environment
+title: Layout of the VKontakte Mini-Application
+sidebar_label: Layout 
 ---
 
 import YouTube from 'react-youtube'
 
-# Setting Up a Development Environment with Supabase, Docker, and ngrok
+# Layout of the VKontakte Mini-Application Using React and VKUI
 
-![neurocoder](/img/neurobots/neuro5.png)
+![neurocoder](/img/neurobots/neuro4.png)
 
-Creating a development environment for building applications using Supabase, Docker, and ngrok is an essential step for effective work. In this article, we will discuss how to install and configure each of these technologies.
+In previous articles, we created a mini-application for VKontakte using Deno, Supabase Edge Functions, OpenAI, and grammY. Now let's look at how to improve the interface of our application using React and the VKUI library. VKUI is a component library designed for creating interfaces that match the VKontakte style.
 
-<YouTube videoId='ahD6pr87l0M' />
+<YouTube videoId='6n2L1k7oSFY' />
 
-## 1. Supabase: Install Supabase CLI
+## 1. Flexbox Froggy Game
 
-Supabase CLI provides tools for developing your project locally and deploying it on the Supabase platform.
+### What is Flexbox Froggy?
 
-### Installing Supabase CLI
+Flexbox Froggy is an interactive game that will help you master Flexbox concepts using an engaging and visual approach. In the game, you will control frogs that need to reach their lily pads using Flexbox properties.
 
-To install Supabase CLI, run the following command:
+### How to Play?
 
-```bash
-npm install supabase --save-dev
+In each of the 24 levels of the game, you are provided with CSS code that you need to complete to correctly position the frogs on the screen. The game offers hints and explanations, making learning more accessible and fun. For example, in the first level, you need to use the justify-content property to align the frogs in a row. You will be prompted to write code that helps them reach the lily pads.
+
+```css
+#pond {
+  display: flex;
+  justify-content: space-between; /* Use this property to distribute the frogs */
+}
 ```
 
-After installation, you can run CLI commands using npx:
+### Why Play?
+
+Flexbox Froggy helps you:
+- Understand the main Flexbox properties, such as flex-direction, justify-content, align-items, and others.
+- Learn to apply these properties in practice, which will significantly simplify your layout work.
+- Enjoy the learning process in a playful manner.
+
+## 2. Layout of the VKontakte Mini-Application Using React and VKUI
+
+### Basics of VKUI
+
+VKUI is a component library specifically designed for creating interfaces that match the VKontakte style. It provides ready-made components such as buttons, panels, cards, and other interface elements that will help you quickly and efficiently develop applications.
+
+Applying Flexbox and VKUI Knowledge in Our Mini-Application
+Now, when we already have a mini-application, let's apply the knowledge of Flexbox and the VKUI library to improve the interface. Here are a few steps to get started:
+
+### Step 1: Installing VKUI
+
+If you haven't installed VKUI yet, run the following command in your project's terminal:
 
 ```bash
-npx supabase <command>
+npm install @vkontakte/vkui
 ```
 
-To check the installed version of Supabase CLI, use the command:
+### Step 2: Creating an Interface with Panel and VKUI Components
 
-```bash
-supabase -v
+Create a new component, for example, MainPanel.js, and use VKUI components to create the interface.
+
+```typescript
+import React from 'react';
+import { Panel, PanelHeader, Button, Group, Div } from '@vkontakte/vkui';
+
+const MainPanel = () => {
+  return (
+    <Panel>
+      <PanelHeader>Добро пожаловать!</PanelHeader>
+      <Group>
+        <Div>
+          <h2>Ваше мини-приложение</h2>
+          <p>Здесь вы можете взаимодействовать с ботом и получать ответы.</p>
+          <Button size="l" mode="primary">Начать</Button>
+        </Div>
+      </Group>
+    </Panel>
+  );
+};
+
+export default MainPanel;
 ```
 
-This will ensure that you are using the latest version of the CLI compatible with the required features. It is recommended to use version v1.46.4 or higher for the best experience.
+### Step 3: Styling with Flexbox
 
-## 2. Docker Desktop: Install Docker Desktop
+You can add styles to the MainPanel.css file if you want to use Flexbox for more complex layouts. For example:
 
-Docker Desktop is an application that allows you to develop and test applications in containers. Installing Docker is necessary for the Supabase CLI to work, as it uses containers to manage the local environment.
-
-### Installing Docker Desktop
-
-1. Go to the official Docker website and download the installer for your operating system.
-2. Follow the on-screen instructions to complete the installation.
-3. After installation, launch Docker Desktop and ensure it is running correctly.
-
-## 3. ngrok: Install ngrok Using Chocolatey
-
-ngrok is a tool for creating secure tunnels to local servers. It allows you to share local web applications with others via a public URL.
-
-### Installing ngrok
-
-If you have Chocolatey installed, you can install ngrok using the following command:
-
-```bash
-choco install ngrok
+```css
+.panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f2f2f2;
+}
 ```
-
-If you do not have Chocolatey, you can download ngrok from the official website and follow the installation instructions.
 
 ## Conclusion
 
-Now you have set up a development environment with Supabase, Docker, and ngrok. These tools will help you effectively develop and test your applications. Supabase provides powerful capabilities for working with databases, Docker allows you to manage dependencies in containers, and ngrok simplifies access to your local applications. Good luck with your development!
-
+Using React and the VKUI library in combination with the knowledge of Flexbox, obtained from the Flexbox Froggy game, will help you create more attractive and functional interfaces for your VKontakte mini-application. VKUI simplifies development by providing ready-made components that match the VKontakte style. Don't forget to experiment with Flexbox and VKUI components in your projects to solidify your understanding. Good luck with developing and styling your VKontakte mini-application!
